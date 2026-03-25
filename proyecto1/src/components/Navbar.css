@@ -1,0 +1,13 @@
+.container-navbar{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 20px;
+}
