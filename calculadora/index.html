@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="./styles/index.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <nav class="sidebar">
+    
+      <div class="sidebar-item active" title="Calculator">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      </div>
+      <div class="sidebar-item" title="History">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="sidebar-item" title="Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+    </nav>
+
+    <div class="main-container">
+      
+      <div class="calc-header">
+        <span class="calc-title">Calculator</span>
+       
+      </div>
+
+ 
+      <div class="main-screen" id="screen">0</div>
+
+    
+      <div class="btn-container" style="justify-content: flex-start;">
+        <button class="btn btn-clear" onclick="handleClear()">AC</button>
+      </div>
+
+      
+      <div class="btn-container">
+        <button class="btn" onclick="handleClick('7')">7</button>
+        <button class="btn" onclick="handleClick('8')">8</button>
+        <button class="btn" onclick="handleClick('9')">9</button>
+        <button class="btn btn-op" onclick="handleClick('/')">÷</button>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn" onclick="handleClick('4')">4</button>
+        <button class="btn" onclick="handleClick('5')">5</button>
+        <button class="btn" onclick="handleClick('6')">6</button>
+        <button class="btn btn-op" onclick="handleClick('x')">×</button>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn" onclick="handleClick('1')">1</button>
+        <button class="btn" onclick="handleClick('2')">2</button>
+        <button class="btn" onclick="handleClick('3')">3</button>
+        <button class="btn btn-op" onclick="handleClick('-')">−</button>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn btn-zero" onclick="handleClick('0')">0</button>
+        <button class="btn" onclick="handleClick('.')">.</button>
+        <button class="btn btn-op" onclick="handleClick('+')">+</button>
+        <button class="btn btn-eq" onclick="calculate()">=</button>
+      </div>
+
+    </div>
+
+   
+    <aside class="history-panel">
+      <div class="history-header">
+        <span class="history-title">RECENT ACTIVITY</span>
+        <span class="history-badge">5</span>
+      </div>
+      <div class="history-list">
+        <div class="history-item">
+          <div class="history-expr">850 ÷ 4</div>
+          <div class="history-res">= 212.50</div>
+        </div>
+        <div class="history-item">
+          <div class="history-expr">1,240 + 342.50</div>
+          <div class="history-res">= 1,582.50</div>
+        </div>
+        <div class="history-item">
+          <div class="history-expr">15% of 840</div>
+          <div class="history-res">= 126</div>
+        </div>
+      </div>
+      <div class="full-history-btn">
+        <button>VIEW FULL HISTORY</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="./script/script.js"></script>
+  
+  <script>
+    
+    let currentInput = '';
+    let previousInput = '';
+    let operator = '';
+    const screen = document.getElementById('screen');
+
+    if(typeof handleClick === 'undefined') {
+      window.handleClick = function(val) {
+        if (['+', '-', 'x', '/'].includes(val)) {
+            operator = val;
+            previousInput = currentInput;
+            currentInput = '';
+        } else {
+            currentInput += val;
+            screen.textContent = currentInput;
+        }
+      };
+      window.handleClear = function() {
+        currentInput = '';
+        previousInput = '';
+        operator = '';
+        screen.textContent = '0';
+      };
+      window.calculate = function() {
+        let res = 0;
+        let n1 = parseFloat(previousInput);
+        let n2 = parseFloat(currentInput);
+        if (operator === '+') res = n1 + n2;
+        if (operator === '-') res = n1 - n2;
+        if (operator === 'x') res = n1 * n2;
+        if (operator === '/') res = n1 / n2;
+        screen.textContent = res;
+        currentInput = res.toString();
+        operator = '';
+        previousInput = '';
+      };
+      
+      // Toggle RAD/DEG
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
