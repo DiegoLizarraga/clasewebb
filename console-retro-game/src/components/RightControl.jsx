@@ -1,21 +1,31 @@
 import React from "react";
 
 function RightControl() {
-return (
+
+  return (
     <svg viewBox="0 0 180 260" xmlns="http://www.w3.org/2000/svg" width="160" height="260">
       {/* Body */}
-      <rect x="0" y="30" width="160" height="200" rx="30" fill="#E8E020" />
+      <rect x="10" y="30" width="160" height="200" rx="30" fill="#E8E020" />
 
       {/* Analog stick */}
-      <circle cx="80" cy="90" r="26" fill="#CCCCCC" />
-      <circle cx="80" cy="90" r="18" fill="#AAAAAA" />
+      <circle cx="90" cy="180" r="26" fill="#CCCCCC" />
+      <circle cx="90" cy="180" r="18" fill="#AAAAAA" />
 
-      {/* D-Pad vertical */}
-      <rect x="52" y="148" width="22" height="60" rx="4" fill="#CCCCCC" />
-      {/* D-Pad horizontal */}
-      <rect x="37" y="163" width="52" height="22" rx="4" fill="#CCCCCC" />
-      {/* D-Pad center */}
-      <rect x="52" y="163" width="22" height="22" rx="2" fill="#BBBBBB" />
+      {/* A button */}
+      <circle cx="126" cy="100" r="13" fill="#CCCCCC" />
+      <text x="126" y="105" textAnchor="middle" fontSize="11" fill="#CC2222" fontFamily="sans-serif" fontWeight="500">A</text>
+
+      {/* B button */}
+      <circle cx="100" cy="124" r="13" fill="#CCCCCC" />
+      <text x="100" y="129" textAnchor="middle" fontSize="11" fill="#DDAA00" fontFamily="sans-serif" fontWeight="500">B</text>
+
+      {/* X button */}
+      <circle cx="100" cy="76" r="13" fill="#CCCCCC" />
+      <text x="100" y="81" textAnchor="middle" fontSize="11" fill="#2255CC" fontFamily="sans-serif" fontWeight="500">X</text>
+
+      {/* Y button */}
+      <circle cx="74" cy="100" r="13" fill="#CCCCCC" />
+      <text x="74" y="105" textAnchor="middle" fontSize="11" fill="#228833" fontFamily="sans-serif" fontWeight="500">Y</text>
 
       
     </svg>
