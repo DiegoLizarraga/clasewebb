@@ -13,7 +13,7 @@ function LeftControl() {
       {/* D-Pad vertical */}
       <rect x="52" y="148" width="22" height="60" rx="4" fill="#CCCCCC" />
       {/* D-Pad horizontal */}
-      <rect x="37" y="163" width="52" height="22" rx="4" fill="#CCCCCC" />
+      <rect x="37" y="163" width="52" height="22" rx="4" fill="#141414" />
       {/* D-Pad center */}
       <rect x="52" y="163" width="22" height="22" rx="2" fill="#BBBBBB" />
 
