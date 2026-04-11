@@ -3,65 +3,47 @@ import './App.css';
 import LeftControl from './components/LeftControl';
 import RightControl from './components/RightControl';
 import Screen from './components/Screen';
-import GameScreen from './components/GameScreen'; // Asegúrate de que este archivo exista
+import GameScreen from './components/GameScreen'; 
 import useFetch from './hooks/useFetch';
+import PokemonDetail from './components/PokemonDetail';
 
 function App() {
+  // 1. CONFIGURACIÓN Y HOOKS
   const url = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
   const { data, loading, error } = useFetch(url);
 
-  const [pokemones, setPokemones] = useState([]);
-  const [position, setposition] = useState(1);
-  
-  // Estados de selección corregidos
-  const [myPokeSelection, setMyPokeSelection] = useState(null);
-  const [pcPokeSelection, setPcPokeSelection] = useState(null);
+  // 2. ESTADOS (STATE)
+  const [pokemones, setPokemones] = useState([]);      // Lista completa de Pokémon
+  const [position, setposition] = useState(1);         // ID del Pokémon resaltado actualmente
+  const [myPokeSelection, setMyPokeSelection] = useState(null); // Tu Pokémon elegido
+  const [pcPokeSelection, setPcPokeSelection] = useState(null); // El contrincante (PC)
 
-   const getListPokemones = () => {
+  // 3. LÓGICA DE DATOS (FETCHING)
+  const getListPokemones = () => {
     const list = data?.results?.filter((p) => p.url);
     const plist = list?.map((l) => fetch(l.url).then((res) => res.json()));
+    
     Promise.all(plist).then((values) => {
+      // "Limpiamos" y enriquecemos la data con ataques aleatorios
       const saniData = values?.map((e) => {
         return {
-          name: e.name,
-          moves: e.moves.map((e) => {
-            return {
-              ...e,
-              attack: getRandomInt(1, 400),
-            };
-          }),
-          sprites: e.sprites,
+          ...e, // Mantenemos los datos originales (id, name, sprites)
+          moves: e.moves.map((m) => ({
+            ...m,
+            attack: getRandomInt(1, 400), // Añadimos daño personalizado
+          })),
         };
       });
-
-      console.log({ saniData });
-      setPokemones(values);
+      setPokemones(saniData);
     });
   };
 
   useEffect(() => {
-    getListPokemones();
+    if (data) getListPokemones();
   }, [data]);
 
-  // Lógica de navegación del D-Pad
-  const handleDirection = (direction) => {
-    if (myPokeSelection) return; // Bloquear navegación si ya estamos en batalla
-
-    if (direction === 'right') {
-      setposition((prev) => (prev < 100 ? prev + 1 : prev));
-    } else if (direction === 'left') {
-      setposition((prev) => (prev > 1 ? prev - 1 : prev));
-    } else if (direction === 'down') {
-      // Salto de fila (asumiendo 5 columnas aprox)
-      setposition((prev) => (prev + 4 <= 100 ? prev + 4 : prev));
-    } else if (direction === 'up') {
-      setposition((prev) => (prev - 4 >= 1 ? prev - 4 : prev));
-    }
-  };
-
-  const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
+  // 4. FUNCIONES DE UTILIDAD Y JUEGO
+  const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
   const computerSelection = () => {
     const rndId = getRandomInt(1, 101);
@@ -69,42 +51,69 @@ function App() {
     setPcPokeSelection(pc);
   };
 
-  // Manejar botones A y B
+  // 5. MANEJADORES DE EVENTOS (CONTROLES)
+  const handleDirection = (direction) => {
+    if (myPokeSelection) return; // Si hay batalla, el D-Pad no mueve la lista
+
+    if (direction === 'right') setposition((prev) => (prev < 100 ? prev + 1 : prev));
+    if (direction === 'left')  setposition((prev) => (prev > 1 ? prev - 1 : prev));
+    if (direction === 'down')  setposition((prev) => (prev + 4 <= 100 ? prev + 4 : prev));
+    if (direction === 'up')    setposition((prev) => (prev - 4 >= 1 ? prev - 4 : prev));
+  };
+
   const handleSelection = (button) => {
     if (button === 'A') {
-      // Si no hay selección, seleccionamos el actual
       if (!myPokeSelection) {
         const selected = pokemones.find((p) => p.id === position);
         if (selected) {
           setMyPokeSelection(selected);
-          computerSelection(); // La PC elige rival
+          computerSelection();
         }
       }
     }
     
     if (button === 'B') {
-      // Regresar a la lista de selección
       setMyPokeSelection(null);
       setPcPokeSelection(null);
     }
   };
 
+  // 6. RENDERIZADO (INTERFAZ)
   return (
-    <div className="flex justify-center pt-10 items-center bg-zinc-900 min-h-screen">
-      {/* Control Izquierdo */}
-      <LeftControl handleDirection={handleDirection} />
+    <div className="flex flex-col items-center pt-10 bg-zinc-900 min-h-screen">
       
-      {/* Pantalla Central */}
-      <div className="mx-2">
-        {myPokeSelection && pcPokeSelection ? (
-          <GameScreen player={myPokeSelection} computer={pcPokeSelection} />
-        ) : (
-          <Screen pokemones={pokemones} position={position} />
-        )}
+      {/* SECCIÓN SUPERIOR: LA CONSOLA */}
+      <div className="flex justify-center items-center gap-6">
+        {/* Controles de movimiento */}
+        <LeftControl handleDirection={handleDirection} />
+    
+        {/* El "Hardware" de la Pantalla */}
+        <div className="mx-2 bg-black p-2 rounded-lg border-4 border-zinc-700 shadow-2xl">
+          {myPokeSelection && pcPokeSelection ? (
+            <GameScreen player={myPokeSelection} computer={pcPokeSelection} />
+          ) : (
+            <Screen pokemones={pokemones} position={position} />
+          )}
+        </div>
+        
+        {/* Botones de acción */}
+        <RightControl handleSelection={handleSelection} />
       </div>
-      
-      {/* Control Derecho */}
-      <RightControl handleSelection={handleSelection} />
+        
+      {/* SECCIÓN INFERIOR: DETALLES (Solo fuera de batalla) */}
+      {!myPokeSelection && (
+        <div className="mt-12 w-full max-w-2xl px-4 ">
+          <div className="bg-zinc-800 rounded-xl p-6 border-t-4 ">
+            <h2 className="text-zinc-500 text-xs uppercase font-bold">
+              Pokedex Data - Entry #{position}
+            </h2>
+            <PokemonDetail 
+              actual={pokemones.filter(p => p.id === position)} 
+            />
+          </div>
+        </div>
+      )}
+  
     </div>
   );
 }
