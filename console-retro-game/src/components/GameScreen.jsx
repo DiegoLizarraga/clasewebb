@@ -63,7 +63,25 @@ const GameScreen = ({ player, computer }) => {
     setCurrentTurn('player');
   };
 
-  
+  // --- PANTALLA DE GANASTE/PERDISTE (Diseño Simple) ---
+  if (isGameOver) {
+    const playerWon = computerHP <= 0;
+    return (
+      <div className="w-[450px] h-[300px] flex flex-col items-center justify-center border-4 border-black bg-white text-black font-bold uppercase p-4">
+        <h1 className={`text-4xl ${playerWon ? 'text-green-600' : 'text-red-600'} mb-4`}>
+          {playerWon ? '¡GANASTE!' : '¡PERDISTE!'}
+        </h1>
+        <p className="text-sm mb-6">{playerWon ? 'El enemigo ha huido.' : 'Tu equipo ha caído.'}</p>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition-colors"
+        >
+          REINTENTAR
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div 
       className="w-[450px] h-[300px] flex flex-col border-4 border-black relative overflow-hidden shadow-2xl"
