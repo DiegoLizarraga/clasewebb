@@ -1,5 +1,7 @@
 #  Proyectos del Repositorio
 
+<img width="493" height="567" alt="image" src="https://github.com/user-attachments/assets/a612599a-f21e-4700-ac20-00ff01510834" />
+
 ## Conceptos Base
 
 ### API (Application Program Interface)
