@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Users.css';
 
-const Users = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Alex', status: 'online' },
-    { id: 2, name: 'Jordan', status: 'online' },
-    { id: 3, name: 'Casey', status: 'idle' },
-    { id: 4, name: 'Morgan', status: 'offline' },
-    { id: 5, name: 'Riley', status: 'online' },
-    { id: 6, name: 'Taylor', status: 'idle' },
-  ]);
-
+const Users = ({ users }) => {
   const onlineCount = users.filter(u => u.status === 'online').length;
   const idleCount = users.filter(u => u.status === 'idle').length;
   const offlineCount = users.filter(u => u.status === 'offline').length;
@@ -41,9 +32,9 @@ const Users = () => {
           <li key={user.id} className={`user-item ${user.status}`}>
             <div className="user-avatar">
               <span className={`status-indicator ${user.status}`}></span>
-              {user.name.charAt(0).toUpperCase()}
+              {user.username.charAt(0).toUpperCase()}
             </div>
-            <span className="user-name">{user.name}</span>
+            <span className="user-name">{user.username}</span>
           </li>
         ))}
       </ul>

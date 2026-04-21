@@ -1,15 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Channels.css';
 
-const Channels = ({ onSelectChannel, selectedChannel }) => {
-  const [channels] = useState([
-    { id: 1, name: '#general' },
-    { id: 2, name: '#random' },
-    { id: 3, name: '#dev' },
-    { id: 4, name: '#design' },
-    { id: 5, name: '#off-topic' },
-  ]);
-
+const Channels = ({ channels, onSelectChannel, selectedChannel }) => {
   return (
     <aside className="channels-container">
       <div className="channels-header">
